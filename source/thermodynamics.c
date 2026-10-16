@@ -336,6 +336,27 @@ int thermodynamics_init(
   /** - set flag for varying constants */
   pth->has_varconst = pba->has_varconst;
 
+
+  /** - With tightly-coupled DM, only the true baryon density is used to count H and He nuclei.
+   *    The input omega_b is the effective density omega_b,true + f*omega_dm and the
+   *    input omega_cdm is (1-f)*omega_dm, so the coupled part is f/(1-f)*Omega0_cdm */
+  pth->Omega0_b_true = pba->Omega0_b - pth->f_tcdm/(1.-pth->f_tcdm)*pba->Omega0_cdm;
+
+  class_test(pth->Omega0_b_true <= 0.,
+             pth->error_message,
+             "f_tcdm=%e gives a true baryon density omega_b,true=%e <= 0 (omega_b,eff=%e, omega_cdm=%e)",
+             pth->f_tcdm,
+             pth->Omega0_b_true*pba->h*pba->h,
+             pba->Omega0_b*pba->h*pba->h,
+             pba->Omega0_cdm*pba->h*pba->h);
+
+  if (pth->thermodynamics_verbose > 0) {
+    printf(" -> TCDM: f_tcdm = %g, omega_b,eff = %g, omega_b,true = %g\n",
+           pth->f_tcdm,
+           pba->Omega0_b*pba->h*pba->h,
+           pth->Omega0_b_true*pba->h*pba->h);
+  }
+
   /** - compute and check primordial Helium mass fraction rho_He/(rho_H+rho_He) */
 
   if (pth->YHe == _YHE_BBN_) {
