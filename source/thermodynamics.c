@@ -373,7 +373,7 @@ int thermodynamics_init(
   pth->fHe = pth->YHe/(_not4_ *(1.-pth->YHe));
 
   /** - infer number of hydrogen nuclei today in m**-3 */
-  pth->n_e = 3.*pow(pba->H0 * _c_ / _Mpc_over_m_,2)*pba->Omega0_b_true/(8.*_PI_*_G_*_m_H_)*(1.-pth->YHe);   /* Accounts for tightly-coupled DM*/
+  pth->n_e = 3.*pow(pba->H0 * _c_ / _Mpc_over_m_,2)*pth->Omega0_b_true/(8.*_PI_*_G_*_m_H_)*(1.-pth->YHe);   /* Accounts for tightly-coupled DM*/
 
   /** - test whether all parameters are in the correct regime */
   class_call(thermodynamics_checks(ppr,pba,pth),
@@ -830,7 +830,7 @@ int thermodynamics_workspace_init(
   /* Hubble parameter today in SI units */
   ptw->SIunit_H0 = pba->H0 * _c_ / _Mpc_over_m_;
   /* H number density today in SI units*/
-  ptw->SIunit_nH0 = 3.*ptw->SIunit_H0*ptw->SIunit_H0*pba->Omega0_b_true/(8.*_PI_*_G_*_m_H_)*(1.-ptw->YHe);    /* Excludes any tightly-coupled DM*/
+  ptw->SIunit_nH0 = 3.*ptw->SIunit_H0*ptw->SIunit_H0*pth->Omega0_b_true/(8.*_PI_*_G_*_m_H_)*(1.-ptw->YHe);    /* Excludes any tightly-coupled DM*/
   /* CMB temperature today in Kelvin */
   ptw->Tcmb = pba->T_cmb;
 
