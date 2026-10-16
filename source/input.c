@@ -2231,6 +2231,16 @@ int input_read_parameters_general(struct file_content * pfc,
   }
 
 
+  /** 6.a) Fraction of dark matter tightly coupled to baryons */
+  /* Read */
+  class_read_double("f_tcdm",pth->f_tcdm);
+  /* Disallow values >= 1 (<0 kept allowed, despite non-physicality) */
+  class_test((pth->f_tcdm >= 1.),
+             errmsg,
+             "f_tcdm=%e, but it must satisfy f_tcdm < 1.",
+             pth->f_tcdm);
+
+
   /** 7) Recombination parameters */
   /* Read */
   class_call(parser_read_string(pfc,"recombination",&string1,&flag1,errmsg),
@@ -5891,6 +5901,9 @@ int input_default_params(struct background *pba,
 
   /** 6) Primordial Helium fraction */
   pth->YHe = _YHE_BBN_;
+
+  /** 6.a) Tightly-coupled dark matter (to baryons); none by default */
+  pth->f_tcdm = 0.;
 
   /** 7) Recombination algorithm */
   pth->recombination=hyrec;
