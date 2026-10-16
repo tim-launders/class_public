@@ -66,6 +66,9 @@ struct thermodynamics
                   close but not exactly equal to the density fraction 4*n_He/(n_H+4*n_He) */
   double bbn_alpha_sensitivity; /**< Related to variation of fundamental constants (sensitivity of YHe to alpha) */
 
+  double f_tcdm; /**< \f$ f_{TCDM} \f$: fraction of total dark matter energy density tightly coupled to baryons before 
+                    recombination; if nonzero, implicitly included in the baryon density for evolution of perturbations */
+
   enum recombination_algorithm recombination; /**< recombination code */
 
   enum recfast_photoion_modes recfast_photoion_mode; /**< photo-ionization coefficient mode of the recfast algorithm */
@@ -291,6 +294,7 @@ struct thermodynamics
 
   double fHe;  /**< \f$ f_{He} \f$: primordial helium-to-hydrogen nucleon ratio 4*n_He/n_H */
   double n_e;  /**< total number density of electrons today (free or not) */
+  double Omega0_b_true;  /**< energy density fraction exclusively in baryons, excluding any tightly-coupled DM */
 
   //@}
 
